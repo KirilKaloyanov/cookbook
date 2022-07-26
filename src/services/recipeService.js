@@ -3,8 +3,8 @@ import { apiEndpoint } from './apiEndpoint';
 const baseUrl = `${apiEndpoint}/recipes`;
 
 export async function getRecipes() {
-    const responce = await fetch(baseUrl);
-    const result = await responce.json();
+    const response = await fetch(baseUrl);
+    const result = await response.json();
 
     return result;
 }

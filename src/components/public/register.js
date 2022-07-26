@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/userService";
 
 export function Register() {
 
@@ -14,11 +16,16 @@ export function Register() {
         }))
     }
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log('Submitted');
-        console.log(user.username);
-        console.log(user.password);
+
+        const result = await registerUser(user);
+
+        if (result.errors) console.log(result.errors)
+        else navigate('/login', {replace: true})
+
     }
 
     return (
