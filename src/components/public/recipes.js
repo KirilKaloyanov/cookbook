@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import * as recipeService from '../../services/recipeService';
+import * as categoryService from '../../services/categoryService';
 
 export function Recipes() {
     
   const [recipes, setRecipes] = useState([]);
-  useEffect(() => {
-    fetch('http://localhost:3001/api/recipes')
-      .then(res => res.json())
-      .then(data => setRecipes(data))
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => { 
+    recipeService.getRecipes()
+      .then(result => setRecipes(result))
       .catch(err => console.log(err));
+
+    const categoriesCollection = [];
+    categoriesCollection.push({_id: '1', name: 'All categories'});
+    categoryService.getCategories()
+      .then(result => result.map(d => categoriesCollection.push(d)))
+      .catch(err => console.log(err));
+    setCategories(categoriesCollection);
   }, []);
 
-
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    fetch('http://localhost:3001/api/categories')
-      .then(res => res.json())
-      .then(data => setCategories(data))
-      .catch(err => console.log(err));
-    }, []);
-
-
-  const [ selectedCategory, setSelectedCategory ] = useState('All');
+  const [ selectedCategory, setSelectedCategory ] = useState('All categories');
   const handleSelectedCategory = (category) => {
     setSelectedCategory(category.name);
   }
@@ -31,26 +31,27 @@ export function Recipes() {
     <>
       <div>
         <ul>
-          {!recipes.length && <li>Loading..</li>}
-          {
-            recipes
-              .filter(
-                recipe => selectedCategory === 'All' ?
-                recipe :
-                recipe.category.name === selectedCategory
-              )
-              .map(r => <li key = {r._id}><Link to={r._id}> {r.name} </Link></li>)
-          }
-        </ul>
-      </div>
-      <div>
-        <ul>
           {!categories.length && <li>Loading..</li>}
           {
             categories.map(category => <li 
               key={category._id}
               onClick = {() => handleSelectedCategory(category)}
             >{category.name}</li>)
+          }
+        </ul>
+      </div>
+
+      <div>
+        <ul>
+          {!recipes.length && <li>Loading..</li>}
+          {
+            recipes
+              .filter(
+                recipe => selectedCategory === 'All categories' ?
+                recipe :
+                recipe.category.name === selectedCategory
+              )
+              .map(r => <li key = {r._id}><Link to={r._id}> {r.name} </Link></li>)
           }
         </ul>
       </div>
