@@ -10,12 +10,8 @@ export async function registerUser(user) {
         },
         body: JSON.stringify(user)
     });
+    const result = await response.json();
 
-    // if (response.ok) {
-        const result = await response.json();
+    return result;
 
-        return result;
-    // } else {
-    //     throw { message: 'Unable to register the user.'}
-    // }
 }
