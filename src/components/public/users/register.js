@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../services/userService";
+import { registerUser } from "../../../services/userService";
+import { Input } from "./input";
+import styles from './user.module.css';
 
 export function Register() {
 
@@ -25,25 +27,20 @@ export function Register() {
         const data = {};
 
         if (user.username.length < 5 || user.password.length < 5) {
-            setError({
-                username: {
-                    message: 'Username and password must be at least 5 characters long'
-                }
-            });
+            setError('Username and password must be at least 5 characters long');
             return;
         }
 
-        if (user.password !== user.confirmPassword) setError({
-            username: {
-                message: 'Passwords do not match.'
-            }
-        }); else {
+        if (user.password !== user.confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        } else {
             data.username = user.username;
             data.password = user.password;
         }
 
         const result = await registerUser(data);
-        if (result.errors) setError(result.errors);
+        if (result.errors) alert(result.errors.username.message);
         else {
             navigate('/login', { replace: true })
         }
@@ -51,42 +48,39 @@ export function Register() {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username: </label>
-                    <input
-                        id='username'
-                        type='text'
+            <div className={styles.form}>
+                <h2 className="my-5">Register</h2>
+                <form onSubmit={handleSubmit}>
+                    <Input
+                        label='Username: '
                         name='username'
+                        type='text'
                         onChange={changeHandler}
                         value={user.username}
                     />
-                </div>
-                <div>
-                    <label htmlFor="password">Password: </label>
-                    <input
-                        id='password'
-                        type='password'
+
+                    <Input
+                        label='Password: '
                         name='password'
+                        type='password'
                         onChange={changeHandler}
                         value={user.password}
                     />
-                </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirm password: </label>
-                    <input
-                        id='confirmPassword'
-                        type='password'
+
+                    <Input
+                        label='Confirm password: '
                         name='confirmPassword'
+                        type='password'
                         onChange={changeHandler}
                         value={user.confirmPassword}
                     />
-                </div>
-                <div>
-                    <input type='submit' value='Register' />
-                </div>
-            </form>
-            {error && <div>{error.username.message}</div>}
+
+                    <div>
+                        <input type='submit' value='Register' className="btn btn-primary my-2" />
+                    </div>
+                </form>
+                {error && <div className='alert alert-warning'>{error}</div>}
+            </div>
         </>
     );
 }

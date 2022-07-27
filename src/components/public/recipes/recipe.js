@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleRecipe } from '../../services/recipeService';
+import { getSingleRecipe } from '../../../services/recipeService';
 
 export function Recipe() {
     let params = useParams();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as recipeService from '../../services/recipeService';
-import * as categoryService from '../../services/categoryService';
+import * as recipeService from '../../../services/recipeService';
+import * as categoryService from '../../../services/categoryService';
 
 export function Recipes() {
     

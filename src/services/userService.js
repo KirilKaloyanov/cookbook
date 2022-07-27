@@ -1,9 +1,8 @@
 import { apiEndpoint } from "./apiEndpoint";
 
-const baseUrl = `${apiEndpoint}/users`;
 
 export async function registerUser(user) {
-    const response = await fetch(baseUrl, {
+    const response = await fetch(`${apiEndpoint}/users`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -11,7 +10,17 @@ export async function registerUser(user) {
         body: JSON.stringify(user)
     });
     const result = await response.json();
-
     return result;
+}
 
+export async function loginUser(user) {
+    const response = await fetch(`${apiEndpoint}/auth`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+    const result = await response.json();
+    return result;
 }
