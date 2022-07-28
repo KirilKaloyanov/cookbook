@@ -29,11 +29,20 @@ export async function loginUser(user) {
     return result;
 }
 
-export function getCurrentUser() {
+export function getUserToken() {
     try {
         const jwt = localStorage.getItem(tokenKey);
-        return jwtDecode(jwt);
+        return jwt;
     } catch (ex) {
+        return null;
+    }
+}
+
+export function getCurrentUser() {
+    try {
+        const jwt = getUserToken();
+        return jwtDecode(jwt);
+    } catch(ex) {
         return null;
     }
 }
@@ -42,15 +51,3 @@ export function logout() {
     localStorage.removeItem(tokenKey);
 }
 
-//// demo
-export async function getUserProfile() {
-    const response = await fetch(`${apiEndpoint}/users/me`, {
-        method: 'GET',
-        headers: {
-            'x-auth-token': localStorage.getItem(tokenKey)
-        }
-    });
-    const result = await response.json();
-    return result;
-}
-////

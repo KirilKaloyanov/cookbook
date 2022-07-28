@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../../services/userService";
-import { Input } from "./input";
+import { Input } from "../common/input";
 import styles from './user.module.css';
 
 export function Register() {
@@ -40,7 +40,7 @@ export function Register() {
         }
 
         const result = await registerUser(data);
-        if (result.errors) alert(result.errors.username.message);
+        if (result.errors) setError(result.errors.username.message);
         else {
             navigate('/login', { replace: true })
         }

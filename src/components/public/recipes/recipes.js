@@ -11,13 +11,13 @@ export function Recipes() {
   useEffect(() => { 
     recipeService.getRecipes()
       .then(result => setRecipes(result))
-      .catch(err => console.log(err));
+      .catch(err => console.log(err)); //TODO winston
 
     const categoriesCollection = [];
     categoriesCollection.push({_id: '1', name: 'All categories'});
     categoryService.getCategories()
       .then(result => result.map(d => categoriesCollection.push(d)))
-      .catch(err => console.log(err));
+      .catch(err => console.log(err)); //TODO winston
     setCategories(categoriesCollection);
   }, []);
 

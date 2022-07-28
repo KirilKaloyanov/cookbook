@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../../../services/userService";
-import { Input } from "./input";
+import { Input } from "../common/input";
 import styles from './user.module.css';
 
 export function Login() {

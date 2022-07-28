@@ -27,7 +27,7 @@ export function Navbar() {
                 {user && 
                     <>
                         <li className="nav-item">
-                            <Link className="nav-link" to='/profile'>{user.username}</Link>
+                        <Link className="nav-link" to={`/${user.username}`}>{user.username}</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to='/logout'>Logout</Link>

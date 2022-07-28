@@ -5,7 +5,7 @@ import { Home } from './components/public/common/home';
 import { Navbar } from './components/public/common/navbar';
 import { Register } from './components/public/users/register';
 import { Login } from './components/public/users/login';
-import { Profile } from './components/private/profile';
+import { UserRecipes } from './components/private/userRecipes';
 import { Logout } from './components/public/users/logout';
 import { Recipes } from './components/public/recipes/recipes';
 import { Recipe } from './components/public/recipes/recipe';
@@ -30,7 +30,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/profile' element={<Profile />} />
+            <Route path='/:userRecipes' element={<UserRecipes />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/recipes/:recipeId' element={<Recipe />} />
