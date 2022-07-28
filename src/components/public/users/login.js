@@ -1,5 +1,4 @@
 import { useState } from "react";
-//import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../services/userService";
 import { Input } from "./input";
 import styles from './user.module.css';
@@ -20,16 +19,13 @@ export function Login() {
         }))
     }
 
-    //const navigate = useNavigate();
     async function handleSubmit(e) {
         e.preventDefault();
 
         const result = await loginUser(user);
         if (result.message) setError(result.message);
         else {
-            //navigate('/recipes', { replace: true });
             window.location = '/';
-            localStorage.setItem('token', result.token);
         }
     }
 

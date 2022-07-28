@@ -1,4 +1,6 @@
+import { logout } from "../../../services/userService";
+
 export function Logout() {
-    localStorage.removeItem('token');
+    logout();
     window.location = '/';
 }
