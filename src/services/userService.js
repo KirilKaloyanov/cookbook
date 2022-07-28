@@ -29,19 +29,14 @@ export async function loginUser(user) {
     return result;
 }
 
-export function getUserToken() {
-    try {
-        const jwt = localStorage.getItem(tokenKey);
-        return jwt;
-    } catch (ex) {
-        return null;
-    }
-}
-
 export function getCurrentUser() {
     try {
-        const jwt = getUserToken();
-        return jwtDecode(jwt);
+        const jwt = localStorage.getItem(tokenKey);
+        const currentUser = jwtDecode(jwt);
+        return {
+            jwt,
+            currentUser
+        }
     } catch(ex) {
         return null;
     }

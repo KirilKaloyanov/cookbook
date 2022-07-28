@@ -4,25 +4,25 @@ import { getUserRecipes } from "../../services/recipeService";
 export function UserRecipes() {
 
     const [userRecipes, setUserRecipes] = useState([]);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         getUserRecipes()
-            .then(result => setUserRecipes(result))
+            .then(result => {
+                if (!result.message)
+                    setUserRecipes(result);
+                else setMessage(result.message);
+            })
             .catch(err => console.log(err));
-    })
-    // async function myFunc() {
-    //     const recipes = await getUserRecipes(user._id);
-    //     console.log(recipes);
-    // }
+    }, [])
 
-    // myFunc();
     return (
         <>
             <h2>Your recipes</h2>
-            {!userRecipes.length && <div>Loading...</div>}
-            {userRecipes.length && 
+            {!userRecipes.length && message}
+            {
                 userRecipes
-                    .map(r => <li key = {r._id}> {r.name} </li>)
+                    .map(r => <li key={r._id}> {r.name} </li>)
             }
         </>
     );

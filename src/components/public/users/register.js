@@ -54,7 +54,6 @@ export function Register() {
                     <Input
                         label='Username: '
                         name='username'
-                        type='text'
                         onChange={changeHandler}
                         value={user.username}
                     />

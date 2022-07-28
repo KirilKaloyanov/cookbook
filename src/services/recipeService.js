@@ -1,4 +1,4 @@
-import { getCurrentUser, getUserToken } from './userService';
+import { getCurrentUser } from './userService';
 import { apiEndpoint } from './apiEndpoint';
 
 const baseUrl = `${apiEndpoint}/recipes`;
@@ -18,11 +18,11 @@ export async function getSingleRecipe(recipeId) {
 }
 
 export async function getUserRecipes() {
-    const user = getCurrentUser();
-    const response = await fetch(`${baseUrl}/users/${user._id}`, {
+    const { currentUser, jwt } = getCurrentUser();
+    const response = await fetch(`${baseUrl}/users/${currentUser._id}`, {
         method: 'GET',
         headers: {
-            'x-auth-token': getUserToken()
+            'x-auth-token': jwt
         }
     });
     const result = await response.json();

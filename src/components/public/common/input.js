@@ -1,4 +1,4 @@
-export function Input({label, name, type, value, onChange}) {
+export function Input({label, name, type = 'text', value, onChange}) {
     return (
         <div className='form-group'>
             <label htmlFor={name}>{label}</label>
