@@ -13,6 +13,7 @@ import { RecipeForm } from './components/private/recipeForm';
 import { Logout } from './components/public/users/logout';
 import { Recipes } from './components/public/recipes/recipes';
 import { Recipe } from './components/public/recipes/recipe';
+import { NotFound } from './components/public/common/notFound';
 //import './App.css';
 
 function App() {
@@ -33,11 +34,12 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/:userRecipes' element={<UserRecipes />} />
-            <Route path='/:userRecipes/:recipeId' element={<RecipeForm />} />
+            <Route path='/:user' element={<UserRecipes />} />
+            <Route path='/:user/:recipeId' element={<RecipeForm />} />
             <Route path='/logout' element={<Logout />} />
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/recipes/:recipeId' element={<Recipe />} />
+            <Route path='/notFound' element={<NotFound />} />
           </Routes>
         </main>
       </UserContext.Provider>

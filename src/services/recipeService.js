@@ -28,3 +28,17 @@ export async function getUserRecipes() {
     const result = await response.json();
     return result;
 }
+
+export async function publishRecipe(recipe) {
+    const { jwt } = getCurrentUser();
+    const response = await fetch(baseUrl, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'x-auth-token': jwt
+        },
+        body: JSON.stringify(recipe)
+    });
+    const result = await response.json();
+    return result;
+}

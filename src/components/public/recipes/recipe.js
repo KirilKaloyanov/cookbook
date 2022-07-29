@@ -8,7 +8,7 @@ export function Recipe() {
     const [recipe, setRecipe] = useState(null);
     useEffect(() => {
         getSingleRecipe(params.recipeId)
-            .then(result => {setRecipe(result[0])})
+            .then(result => {setRecipe(result) })
             .catch(err => console.log(err));
     }, [params.recipeId]);
 
@@ -21,16 +21,16 @@ export function Recipe() {
                 <h3>Number of servings: {recipe.numberOfServings}</h3>
                 <ul>
                     {recipe.ingredients.map(i =>
-                        <li key={i}>{i}</li>
+                        <li key={i.id}>{i.ingredient}</li>
                     )}
                 </ul>
                 <ol>
-                    {recipe.method.map(m =>
-                        <li key={m}>{m}</li>
+                    {recipe.methods.map(m =>
+                        <li key={m.id}>{m.method}</li>
                     )}
                 </ol>
                 <em>Created by: {recipe.userId.username}</em>
-            </div> }
+            </div>}
 
         </>
     );
