@@ -11,8 +11,8 @@ export async function getRecipes() {
 }
 
 export async function getSingleRecipe(recipeId) {
-    const responce = await fetch(baseUrl + '/' + recipeId);
-    const result = await responce.json();
+    const response = await fetch(baseUrl + '/' + recipeId);
+    const result = await response.json();
 
     return result;
 }

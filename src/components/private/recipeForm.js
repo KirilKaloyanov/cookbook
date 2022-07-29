@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Input } from '../public/common/input';
+import { FormSelectCategory } from "./formSelectCategory";
 import { FormDynamicFields } from "./formDynamicFields";
 
 export function RecipeForm() {
@@ -8,9 +9,10 @@ export function RecipeForm() {
 
     const [recipe, setRecipe] = useState({
         name: '',
-        numberOfServings: '',
+        numberOfServings: 1,
         ingredients: [],
-        methods: []
+        methods: [],
+        category: ''
     });
 
     const handleChange = (e) => {
@@ -31,11 +33,6 @@ export function RecipeForm() {
         }));
     }
 
-    function recipeFormSubmit(e) {
-        e.preventDefault();
-        console.log('Form Submitted', recipe);
-    }
-
     function addField(e) {
         let data;
         if (e.target.name === 'ingredient') data = [...recipe.ingredients];
@@ -47,7 +44,7 @@ export function RecipeForm() {
         }));
     }
 
-    const removeField = (index, e) => {
+    function removeField(index, e) {
         let data = [];
         if (e.target.name === 'ingredient') data = [...recipe.ingredients];
         else if (e.target.name === 'method') data = [...recipe.methods];
@@ -57,6 +54,11 @@ export function RecipeForm() {
             ...state,
             [`${e.target.name}s`]: data
         }));
+    }
+    
+    function recipeFormSubmit(e) {
+        e.preventDefault();
+        console.log('Form Submitted', recipe);
     }
 
     return (
@@ -75,10 +77,13 @@ export function RecipeForm() {
                     label='Number of servings'
                     name='numberOfServings'
                     type='number'
-                    value={recipe.numberOfServings}
+                    value={Math.abs(recipe.numberOfServings)}
                     onChange={handleChange}
                 />
-
+                <FormSelectCategory 
+                    value={recipe.category}
+                    onChange={handleChange}
+                />
                 <FormDynamicFields
                     label='Ingredients'
                     fields={recipe.ingredients}
@@ -95,10 +100,8 @@ export function RecipeForm() {
                     onFieldRemove={(e, index) => removeField(index, e)}
                     onFieldAdd={(e) => addField(e)}
                 />
-
                 <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Submit</button>
             </form>
-
         </>
     );
 }
