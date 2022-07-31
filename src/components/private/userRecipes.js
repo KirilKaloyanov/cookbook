@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link, useResolvedPath } from "react-router-dom";
-import { getUserRecipes } from "../../services/recipeService";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { getUserRecipes, deleteUserRecipe } from "../../services/recipeService";
 
 export function UserRecipes() {
 
@@ -24,14 +24,27 @@ export function UserRecipes() {
         navigate(`/${params.user}/new`)
     }
 
+    function deleteRecipe(recipeId) {
+        deleteUserRecipe(recipeId)
+            .then(result => {
+                if (result.acknowledged) {
+                    setUserRecipes(recipes => recipes.filter(r => r._id !== recipeId));
+                }
+            })
+            .catch(ex => console.log(ex));
+    }
+
     return (
         <>
             <h2>Your recipes</h2>
-            <button className="btn btn-primary" onClick={newRecipe}>New recipe</button>
+            <button className="btn btn-primary my-4" onClick={newRecipe}>New recipe</button>
             {!userRecipes.length && message}
             {
                 userRecipes
-                    .map(r => <li key={r._id}> <Link to={`/${params.user}/${r._id}`}>{r.name} </Link></li>)
+                    .map(r => <li key={r._id}> 
+                        <Link to={`/${params.user}/${r._id}`}>{r.name} </Link>
+                        <button className="btn btn-danger m-2" onClick={() => deleteRecipe(r._id)}>Delete</button>
+                    </li>)
             }
         </>
     );

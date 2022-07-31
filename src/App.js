@@ -34,9 +34,9 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/logout' element={<Logout />} />
             <Route path='/:user' element={<UserRecipes />} />
             <Route path='/:user/:recipeId' element={<RecipeForm />} />
-            <Route path='/logout' element={<Logout />} />
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/recipes/:recipeId' element={<Recipe />} />
             <Route path='/notFound' element={<NotFound />} />

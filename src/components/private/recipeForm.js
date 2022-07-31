@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSingleRecipe, publishRecipe } from "../../services/recipeService";
+import { getUserRecipe, publishRecipe } from "../../services/recipeService";
 import { Input } from '../public/common/input';
 import { FormSelectCategory } from "./formSelectCategory";
 import { FormDynamicFields } from "./formDynamicFields";
@@ -12,23 +12,24 @@ export function RecipeForm() {
     const [recipe, setRecipe] = useState({
         name: '',
         numberOfServings: 1,
-        ingredients: [],
-        methods: [],
+        ingredients: [{id: 0, ingredient: ''}],
+        methods: [{id: 0, method: ''}],
         category: ''
     });
 
     useEffect(() => {
         async function getData() {
             if (params.recipeId === 'new') return;
-            const result = await getSingleRecipe(params.recipeId);
-            if (result.error) navigate('/notFound', { replace: true });
+            const result = await getUserRecipe(params.recipeId);
+            if (result.error || result.message) navigate('/notFound', { replace: true });
             else return result;
         }
         getData().then(result => setRecipe(mapToViewModel(result))).catch(ex => { });
-    }, [])
+    }, [navigate, params.recipeId])
 
     function mapToViewModel(recipe) {
         return {
+            _id: recipe._id,
             name: recipe.name,
             numberOfServings: recipe.numberOfServings,
             ingredients: recipe.ingredients,
@@ -69,7 +70,7 @@ export function RecipeForm() {
     return (
         <>
             {params.recipeId === 'new' && <h2> New Recipe </h2>}
-            {params.recipeId !== 'new' && <h2> Edit Recipe </h2>}
+            {params.recipeId !== 'new' && <h2> Edit {recipe.name} </h2>}
 
             <form>
                 <Input
@@ -90,7 +91,6 @@ export function RecipeForm() {
                     onChange={handleChange}
                 />
                 <FormDynamicFields
-                    path={params.recipeId}
                     label='Ingredients'
                     fields={recipe.ingredients}
                     fieldName='ingredient'
@@ -99,7 +99,6 @@ export function RecipeForm() {
                     onFieldAdd={(e) => addField(e)}
                 />
                 <FormDynamicFields
-                    path={params.recipeId}
                     label='Methods'
                     fields={recipe.methods}
                     fieldName='method'
@@ -107,6 +106,7 @@ export function RecipeForm() {
                     onFieldRemove={(e, index) => removeField(index, e)}
                     onFieldAdd={(e) => addField(e)}
                 />
+                <br />
                 <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Submit</button>
             </form>
         </>
