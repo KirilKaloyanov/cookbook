@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getCategories } from "../../services/categoryService";
+import { getCategories } from "../../../services/categoryService";
 
 export function FormSelectCategory({value, onChange}) {
     const [categories, setCategories] = useState([]);

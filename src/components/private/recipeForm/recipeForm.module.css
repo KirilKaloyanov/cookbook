@@ -1,0 +1,10 @@
+.recipeForm {
+    max-width: 800px;
+    margin: auto
+}
+
+.center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

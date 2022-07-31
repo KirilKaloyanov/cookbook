@@ -1,3 +1,5 @@
+import styles from './recipeForm.module.css';
+
 export function FormDynamicFields({
     label,
     fields,
@@ -13,7 +15,9 @@ export function FormDynamicFields({
             {fields.map((field, index) => {
                 return (
                     <div className="row" key={field.id}>
-                        <div className="col-md-9">
+                        <h5 className={`col-md-1 ${styles.center}`}>{index + 1}.</h5>
+
+                        <div className="col-md-8">
                             <input
                                 name={fieldName}
                                 className="form-control"
@@ -25,7 +29,7 @@ export function FormDynamicFields({
                             <button
                                 name={fieldName}
                                 onClick={(e) => onFieldRemove(e, index)}
-                                className="btn btn-primary mx-2 mb-2"
+                                className="btn btn-danger mx-2 mb-2"
                                 form=''
                             >Remove {fieldName}</button>
                         </div>
@@ -36,7 +40,7 @@ export function FormDynamicFields({
             <button
                 name={fieldName}
                 onClick={onFieldAdd}
-                className="btn btn-primary my-2"
+                className='btn btn-success my-2'
                 form=''
             >
                 Add {fieldName}

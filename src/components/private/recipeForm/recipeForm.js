@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUserRecipe, publishRecipe } from "../../services/recipeService";
-import { Input } from '../public/common/input';
+import { getUserRecipe, publishRecipe } from "../../../services/recipeService";
+import { Input } from '../../public/common/input';
 import { FormSelectCategory } from "./formSelectCategory";
-import { FormDynamicFields } from "./formDynamicFields";
+import { FormDynamicFields } from "./formDynamicFields"; 
+import styles from './recipeForm.module.css'
 
 export function RecipeForm() {
     const params = useParams();
@@ -63,12 +64,13 @@ export function RecipeForm() {
     }
     async function recipeFormSubmit(e) {
         e.preventDefault();
-        await publishRecipe(recipe);
-        navigate(`/${params.user}`)
+        const response = await publishRecipe(recipe);
+        console.log(response);
+        //navigate(`/${params.user}`)
     }
 
     return (
-        <>
+        <div className={styles.recipeForm}>
             {params.recipeId === 'new' && <h2> New Recipe </h2>}
             {params.recipeId !== 'new' && <h2> Edit {recipe.name} </h2>}
 
@@ -109,7 +111,7 @@ export function RecipeForm() {
                 <br />
                 <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Submit</button>
             </form>
-        </>
+        </div>
     );
 }
 

@@ -9,7 +9,7 @@ import { Navbar } from './components/public/common/navbar';
 import { Register } from './components/public/users/register';
 import { Login } from './components/public/users/login';
 import { UserRecipes } from './components/private/userRecipes';
-import { RecipeForm } from './components/private/recipeForm';
+import { RecipeForm } from './components/private/recipeForm/recipeForm';
 import { Logout } from './components/public/users/logout';
 import { Recipes } from './components/public/recipes/recipes';
 import { Recipe } from './components/public/recipes/recipe';
