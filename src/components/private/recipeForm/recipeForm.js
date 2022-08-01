@@ -4,12 +4,14 @@ import { getUserRecipe, publishRecipe } from "../../../services/recipeService";
 import { Input } from '../../public/common/input';
 import { FormSelectCategory } from "./formSelectCategory";
 import { FormDynamicFields } from "./formDynamicFields"; 
+import { validateRecipe } from "./validateRecipe";
 import styles from './recipeForm.module.css'
 
 export function RecipeForm() {
     const params = useParams();
     const navigate = useNavigate();
 
+    const [errors, setErrors] = useState(null);
     const [recipe, setRecipe] = useState({
         name: '',
         numberOfServings: 1,
@@ -64,10 +66,18 @@ export function RecipeForm() {
     }
     async function recipeFormSubmit(e) {
         e.preventDefault();
-        const response = await publishRecipe(recipe);
-        console.log(response);
-        //navigate(`/${params.user}`)
+        setErrors(validateRecipe(recipe));
+        if (validateRecipe(recipe)) {
+            if (recipe.ingredients.length === 0) recipe.ingredients.push({id: 0, ingredient: ''});
+            if (recipe.methods.length === 0) recipe.methods.push({id: 0, method: ''});
+            return;
+        } else {
+            await publishRecipe(recipe);
+            navigate(`/${params.user}`);
+        }
     }
+
+    const onClose = () => navigate(`/${params.user}`);
 
     return (
         <div className={styles.recipeForm}>
@@ -109,14 +119,16 @@ export function RecipeForm() {
                     onFieldAdd={(e) => addField(e)}
                 />
                 <br />
-                <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Submit</button>
+                {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}
+                <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
+                <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
             </form>
         </div>
     );
 }
 
 
-
+//
 
 // <h3>Ingredients</h3>
 
