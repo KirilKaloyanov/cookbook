@@ -12,16 +12,19 @@ export function FormDynamicFields({
         <>
             <br />
             <h5>{label}:</h5>
-            {fields.map((field, index) => {
+            {fields.map((field, index, arr) => {
+                let autoFocusFlag = false;
+                if (arr.length > 1 && index === arr.length - 1 && field[fieldName].length === 0) autoFocusFlag = true;
                 return (
                     <div className="row" key={field.id}>
                         <h5 className={`col-md-1 ${styles.center}`}>{index + 1}.</h5>
 
                         <div className="col-md-8">
                             <input
+                                autoFocus={autoFocusFlag}
                                 name={fieldName}
                                 className="form-control"
-                                value={field[fieldName]}//.name(new) .method(edit)
+                                value={field[fieldName]}
                                 onChange={(e) => onFieldChange(e, index)}
                             />
                         </div>

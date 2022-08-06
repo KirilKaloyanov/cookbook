@@ -90,6 +90,7 @@ export function RecipeForm() {
                     name='name'
                     value={recipe.name}
                     onChange={handleChange}
+                    autoFocus={true}
                 />
                 <Input
                     label='Number of servings'

@@ -39,6 +39,7 @@ export function Login() {
                         name='username'
                         onChange={changeHandler}
                         value={user.username}
+                        autoFocus={true}
                     />
 
                     <Input
