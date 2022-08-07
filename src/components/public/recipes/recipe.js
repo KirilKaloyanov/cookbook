@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getSingleRecipe } from '../../../services/recipeService';
 import { RecipeComment } from './recipeComment';
 import { NewComment } from '../../private/newComment';
+import { Like } from '../../private/like';
 import { UserContext } from '../../contexts/UserContext';
 
 export function Recipe() {
@@ -25,6 +26,10 @@ export function Recipe() {
             {recipe && <div>
                 <h1 >{recipe.name}</h1>
                 <div className='badge rounded-pill p-2 m-2 bg-info'>{recipe.category.name}</div>
+                <span className='border border-secondary rounded-4 px-2 py-1 m-1'>
+                    <i className='red-heart fa-heart fa-solid m-2' />
+                    {recipe.likes.filter(rl => rl.like === true).length}
+                </span>
                 <h5>Number of servings: {recipe.numberOfServings}</h5>
                 <ul>
                     {recipe.ingredients.map(i =>
@@ -37,6 +42,7 @@ export function Recipe() {
                     )}
                 </ol>
                 <em>Created by: {recipe.userId.username}</em>
+                {user && <Like user={user} recipe={recipe} onRender={callRerender}/>}
 
                 {
                     recipe.comments.length > 0 &&

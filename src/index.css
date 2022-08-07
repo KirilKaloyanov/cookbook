@@ -19,3 +19,7 @@ code {
 .decoration-none {
   text-decoration: none;
 }
+
+.red-heart {
+  color: rgb(207, 4, 4);
+}

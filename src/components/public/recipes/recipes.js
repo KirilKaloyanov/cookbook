@@ -57,8 +57,12 @@ export function Recipes() {
                 : recipe.category.name === selectedCategory
             )
             .map(r =>
-              <li key={r._id} className='list-group-item'>
+              <li key={r._id} className='list-group-item d-flex justify-content-between'>
                 <Link to={r._id} className='decoration-none'> {r.name} </Link>
+                <span className='border border-secondary rounded-4 px-2 m-1'>
+                    <i className='red-heart fa-heart fa-solid m-2' />
+                    {r.likes.filter(rl => rl.like === true).length}
+                </span>
               </li>
             )
           }

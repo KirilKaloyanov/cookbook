@@ -84,6 +84,19 @@ export async function publishComment(comment, recipe) {
     return result;
 }
 
+export async function likeRecipe(recipeId) {
+    const { jwt } = getCurrentUser();
+
+    const response = await fetch(`${baseUrl}/${recipeId}/like`, {
+        method: 'PUT',
+        headers: {
+            'x-auth-token': jwt
+        }
+    });
+    const result = await response.json();
+    return result;
+}
+
 export async function deleteUserRecipe(recipeId) {
     const { jwt } = getCurrentUser();
     const response = await fetch(`${baseUrl}/${recipeId}`, {
