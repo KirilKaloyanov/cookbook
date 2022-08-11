@@ -26,53 +26,35 @@ export function RecipeForm() {
     });
 
     useEffect(() => {
-        async function getData() {
-            if (isRecipeNew) return;
-            const result = await getUserRecipe(params.recipeId);
-            if (result.error || result.message) navigate('/notFound', { replace: true });
-            else return result;
-        }
-        getData()
-            .then(result => setRecipe(mapToViewModel(result)))
-            .catch(ex => { });
+        if (isRecipeNew) return;
+        getUserRecipe(params.recipeId)
+            .then(result => {
+                if (result.error || result.message) navigate('/notFound', { replace: true });
+                else setRecipe({
+                    _id: result._id,
+                    name: result.name,
+                    numberOfServings: result.numberOfServings,
+                    ingredients: result.ingredients,
+                    methods: result.methods,
+                    category: result.category.name
+                })
+            }).catch(ex => {});
     }, [navigate, params.recipeId, isRecipeNew])
-
-    function mapToViewModel(recipe) {
-        return {
-            _id: recipe._id,
-            name: recipe.name,
-            numberOfServings: recipe.numberOfServings,
-            ingredients: recipe.ingredients,
-            methods: recipe.methods,
-            category: recipe.category.name
-        }
-    }
 
     const handleChange = (e) => {
         enableButton();
         setRecipe(state => ({ ...state, [e.target.name]: e.target.value }));
     }
 
-    const handleFieldChange = (index, e) => {
+    const handleFieldChange = (e, action, index) => {
         enableButton();
         let data;
         if (e.target.name === 'ingredient') data = [...recipe.ingredients];
         else if (e.target.name === 'method') data = [...recipe.methods];
-        data[index][e.target.name] = e.target.value;
-        setRecipe(state => ({ ...state, [`${e.target.name}s`]: data }));
-    }
-    function addField(e) {
-        let data = [];
-        if (e.target.name === 'ingredient') data = [...recipe.ingredients];
-        else if (e.target.name === 'method') data = [...recipe.methods];
+        if (action === 'change') data[index][e.target.name] = e.target.value;
+        if (action === 'remove') data.splice(index, 1);
+        if (action === 'add')
         data.push({ id: !data.length ? 0 : data[data.length - 1].id + 1, [e.target.name]: '' });
-        setRecipe(state => ({ ...state, [`${e.target.name}s`]: data }));
-    }
-    function removeField(index, e) {
-        let data = [];
-        if (e.target.name === 'ingredient') data = [...recipe.ingredients];
-        else if (e.target.name === 'method') data = [...recipe.methods];
-        data.splice(index, 1);
         setRecipe(state => ({ ...state, [`${e.target.name}s`]: data }));
     }
     async function recipeFormSubmit(e) {
@@ -94,8 +76,8 @@ export function RecipeForm() {
     return (
         <div className={styles.recipeForm}>
             {!isRecipeNew && recipe.numberOfServings !== 0
-                ? <h2> Loading recipe ... </h2> 
-                : <h2> Edit {recipe.name} </h2>
+                ? <h2> Edit {recipe.name} </h2>
+                : <h2> Loading recipe ... </h2> 
             }
             {isRecipeNew && <h2> New Recipe </h2>}
             <form>
@@ -121,17 +103,13 @@ export function RecipeForm() {
                     label='Ingredients'
                     fields={recipe.ingredients}
                     fieldName='ingredient'
-                    onFieldChange={(e, index) => handleFieldChange(index, e)}
-                    onFieldRemove={(e, index) => removeField(index, e)}
-                    onFieldAdd={(e) => addField(e)}
+                    onFieldChange={(e, action, index) => handleFieldChange(e, action, index)}
                 />
                 <FormDynamicFields
                     label='Methods'
                     fields={recipe.methods}
                     fieldName='method'
-                    onFieldChange={(e, index) => handleFieldChange(index, e)}
-                    onFieldRemove={(e, index) => removeField(index, e)}
-                    onFieldAdd={(e) => addField(e)}
+                    onFieldChange={(e, action, index) => handleFieldChange(e, action, index)}
                 />
                 <br />
                 {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}

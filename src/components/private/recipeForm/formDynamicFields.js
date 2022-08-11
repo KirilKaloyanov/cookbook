@@ -4,9 +4,7 @@ export function FormDynamicFields({
     label,
     fields,
     fieldName,
-    onFieldChange,
-    onFieldRemove,
-    onFieldAdd
+    onFieldChange
 }) {
     return (
         <>
@@ -25,13 +23,13 @@ export function FormDynamicFields({
                                 name={fieldName}
                                 className="form-control"
                                 value={field[fieldName]}
-                                onChange={(e) => onFieldChange(e, index)}
+                                onChange={(e) => onFieldChange(e, 'change', index)}
                             />
                         </div>
                         <div className="col-md-3">
                             <button
                                 name={fieldName}
-                                onClick={(e) => onFieldRemove(e, index)}
+                                onClick={(e) => onFieldChange(e, 'remove', index)} 
                                 className="btn btn-danger mx-2 mb-2"
                                 form=''
                             >Remove {fieldName}</button>
@@ -42,7 +40,7 @@ export function FormDynamicFields({
 
             <button
                 name={fieldName}
-                onClick={onFieldAdd}
+                onClick={(e) => onFieldChange(e, 'add')}
                 className='btn btn-success my-2'
                 form=''
             >
