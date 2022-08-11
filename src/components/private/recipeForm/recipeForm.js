@@ -5,6 +5,7 @@ import { Input } from '../../public/common/input';
 import { FormSelectCategory } from "./formSelectCategory";
 import { FormDynamicFields } from "./formDynamicFields";
 import { validateRecipe } from "./validateRecipe";
+import { useEnableButton } from "../../../hooks/useEnableButton";
 import styles from './recipeForm.module.css'
 
 export function RecipeForm() {
@@ -12,6 +13,10 @@ export function RecipeForm() {
     const navigate = useNavigate();
 
     const [errors, setErrors] = useState(null);
+    const { isButtonEnabled, enableButton, disableButton } = useEnableButton();
+
+    const isRecipeNew = params.recipeId === 'new';
+
     const [recipe, setRecipe] = useState({
         name: '',
         numberOfServings: 0,
@@ -22,13 +27,15 @@ export function RecipeForm() {
 
     useEffect(() => {
         async function getData() {
-            if (params.recipeId === 'new') return;
+            if (isRecipeNew) return;
             const result = await getUserRecipe(params.recipeId);
             if (result.error || result.message) navigate('/notFound', { replace: true });
             else return result;
         }
-        getData().then(result => setRecipe(mapToViewModel(result))).catch(ex => { });
-    }, [navigate, params.recipeId])
+        getData()
+            .then(result => setRecipe(mapToViewModel(result)))
+            .catch(ex => { });
+    }, [navigate, params.recipeId, isRecipeNew])
 
     function mapToViewModel(recipe) {
         return {
@@ -41,9 +48,13 @@ export function RecipeForm() {
         }
     }
 
-    const handleChange = (e) => setRecipe(state => ({ ...state, [e.target.name]: e.target.value }));
+    const handleChange = (e) => {
+        enableButton();
+        setRecipe(state => ({ ...state, [e.target.name]: e.target.value }));
+    }
 
     const handleFieldChange = (index, e) => {
+        enableButton();
         let data;
         if (e.target.name === 'ingredient') data = [...recipe.ingredients];
         else if (e.target.name === 'method') data = [...recipe.methods];
@@ -66,6 +77,7 @@ export function RecipeForm() {
     }
     async function recipeFormSubmit(e) {
         e.preventDefault();
+        disableButton();
         setErrors(validateRecipe(recipe));
         if (validateRecipe(recipe)) {
             if (recipe.ingredients.length === 0) recipe.ingredients.push({ id: 0, ingredient: '' });
@@ -81,97 +93,58 @@ export function RecipeForm() {
 
     return (
         <div className={styles.recipeForm}>
-            {params.recipeId === 'new' && <h2> New Recipe </h2>}
-            {params.recipeId !== 'new' && recipe.name.length === 0 && <h2> Loading recipe ... </h2>}
-
-            {
-                (
-                    params.recipeId === 'new' ||
-                    (params.recipeId !== 'new' && recipe.name.length !== 0)
-                )
-                &&
-                <>
-                    {params.recipeId !== 'new' && <h2> Edit {recipe.name} </h2>}
-
-                    <form>
-                        <Input
-                            label='Name'
-                            name='name'
-                            value={recipe.name}
-                            onChange={handleChange}
-                            autoFocus={true}
-                        />
-                        <Input
-                            label='Number of servings'
-                            name='numberOfServings'
-                            type='number'
-                            value={Math.abs(recipe.numberOfServings)}
-                            onChange={handleChange}
-                        />
-                        <FormSelectCategory
-                            value={recipe.category}
-                            onChange={handleChange}
-                        />
-                        <FormDynamicFields
-                            label='Ingredients'
-                            fields={recipe.ingredients}
-                            fieldName='ingredient'
-                            onFieldChange={(e, index) => handleFieldChange(index, e)}
-                            onFieldRemove={(e, index) => removeField(index, e)}
-                            onFieldAdd={(e) => addField(e)}
-                        />
-                        <FormDynamicFields
-                            label='Methods'
-                            fields={recipe.methods}
-                            fieldName='method'
-                            onFieldChange={(e, index) => handleFieldChange(index, e)}
-                            onFieldRemove={(e, index) => removeField(index, e)}
-                            onFieldAdd={(e) => addField(e)}
-                        />
-                        <br />
-                        {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}
-                        <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
-                        <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
-                    </form>
-                </>
+            {!isRecipeNew && recipe.numberOfServings !== 0
+                ? <h2> Loading recipe ... </h2> 
+                : <h2> Edit {recipe.name} </h2>
             }
+            {isRecipeNew && <h2> New Recipe </h2>}
+            <form>
+                <Input
+                    label='Name'
+                    name='name'
+                    value={recipe.name}
+                    onChange={handleChange}
+                    autoFocus={true}
+                />
+                <Input
+                    label='Number of servings'
+                    name='numberOfServings'
+                    type='number'
+                    value={Math.abs(recipe.numberOfServings)}
+                    onChange={handleChange}
+                />
+                <FormSelectCategory
+                    value={recipe.category}
+                    onChange={handleChange}
+                />
+                <FormDynamicFields
+                    label='Ingredients'
+                    fields={recipe.ingredients}
+                    fieldName='ingredient'
+                    onFieldChange={(e, index) => handleFieldChange(index, e)}
+                    onFieldRemove={(e, index) => removeField(index, e)}
+                    onFieldAdd={(e) => addField(e)}
+                />
+                <FormDynamicFields
+                    label='Methods'
+                    fields={recipe.methods}
+                    fieldName='method'
+                    onFieldChange={(e, index) => handleFieldChange(index, e)}
+                    onFieldRemove={(e, index) => removeField(index, e)}
+                    onFieldAdd={(e) => addField(e)}
+                />
+                <br />
+                {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}
+                {
+                    !isButtonEnabled
+                        ? <button disabled className="btn btn-primary my-2">Saving recipe ...</button>
+                        : <>
+                            <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
+                            <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
+                        </>
+                }
+            </form>
         </div>
     );
 }
 
-
-//
-
-// <h3>Ingredients</h3>
-
-// {recipe.ingredients.map((field, index) => {
-//     return (
-//         <div className="row" key={field.id}>
-//             <div className="col-md-9">
-//                 <input
-//                     name='ingredient'
-//                     className="form-control"
-//                     value={field['ingredient']}//.name(new) .ingredient(edit)
-//                     onChange={(e) => handleFieldChange(index, e)}
-//                 />
-//             </div>
-//             <div className="col-md-3">
-//                 <button
-//                     name='ingredient'
-//                     onClick={(e) => removeField(index, e)}
-//                     className="btn btn-primary mx-2 mb-2"
-//                     form=''
-//                 >Remove ingredient</button>
-//             </div>
-//         </div>
-//     )
-// })}
-
-// <button
-//     name='ingredient'
-//     onClick={(e) => addField(e)}
-//     className="btn btn-primary my-2"
-//     form=''
-// >
-//     Add ingredient
-// </button>

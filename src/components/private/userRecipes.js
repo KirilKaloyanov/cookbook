@@ -64,7 +64,7 @@ export function UserRecipes() {
                 <div className={styles.overlay}>
                     <div className={styles.backdrop}>
                         <div className={styles.modal}>
-                            Please, confirm deletion of {deletion.name}.
+                            Are you sure you want to delete {deletion.name}?
                             <div className={styles.buttons}>
                                 <br />
                                 <button

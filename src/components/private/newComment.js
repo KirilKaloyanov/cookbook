@@ -20,6 +20,7 @@ export function NewComment({ recipe, onRender }) {
         } 
         const response = await publishComment({comment: comment}, recipe);
         setComment('');
+        setError(null);
         onRender(response);
     }
 
