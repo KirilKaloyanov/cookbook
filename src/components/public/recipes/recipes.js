@@ -32,7 +32,6 @@ export function Recipes() {
       <div>
         <h2>Recipes collection</h2>
         <ul>
-          {!categories.length && <li>Loading..</li>}
           {categories
             .map(category => <li
               key={category._id}
@@ -49,19 +48,24 @@ export function Recipes() {
 
       <div>
         <ul className='list-group'>
-          {!recipes.length && <li>Loading..</li>}
+          {!recipes.length && <h3>Loading..</h3>}
           {recipes
             .filter(
               recipe => selectedCategory === 'All categories'
                 ? recipe
                 : recipe.category.name === selectedCategory
             )
+            .sort(
+              (a, b) =>
+                b.likes.filter(rl => rl.like === true).length -
+                a.likes.filter(rl => rl.like === true).length
+            )
             .map(r =>
               <li key={r._id} className='list-group-item d-flex justify-content-between'>
                 <Link to={r._id} className='decoration-none'> {r.name} </Link>
                 <span className='border border-secondary rounded-4 px-2 m-1'>
-                    <i className='red-heart fa-heart fa-solid m-2' />
-                    {r.likes.filter(rl => rl.like === true).length}
+                  <i className='red-heart fa-heart fa-solid m-2' />
+                  {r.likes.filter(rl => rl.like === true).length}
                 </span>
               </li>
             )

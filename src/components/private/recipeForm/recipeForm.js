@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getUserRecipe, publishRecipe } from "../../../services/recipeService";
 import { Input } from '../../public/common/input';
 import { FormSelectCategory } from "./formSelectCategory";
-import { FormDynamicFields } from "./formDynamicFields"; 
+import { FormDynamicFields } from "./formDynamicFields";
 import { validateRecipe } from "./validateRecipe";
 import styles from './recipeForm.module.css'
 
@@ -14,9 +14,9 @@ export function RecipeForm() {
     const [errors, setErrors] = useState(null);
     const [recipe, setRecipe] = useState({
         name: '',
-        numberOfServings: 1,
-        ingredients: [{id: 0, ingredient: ''}],
-        methods: [{id: 0, method: ''}],
+        numberOfServings: 0,
+        ingredients: [{ id: 0, ingredient: '' }],
+        methods: [{ id: 0, method: '' }],
         category: ''
     });
 
@@ -68,8 +68,8 @@ export function RecipeForm() {
         e.preventDefault();
         setErrors(validateRecipe(recipe));
         if (validateRecipe(recipe)) {
-            if (recipe.ingredients.length === 0) recipe.ingredients.push({id: 0, ingredient: ''});
-            if (recipe.methods.length === 0) recipe.methods.push({id: 0, method: ''});
+            if (recipe.ingredients.length === 0) recipe.ingredients.push({ id: 0, ingredient: '' });
+            if (recipe.methods.length === 0) recipe.methods.push({ id: 0, method: '' });
             return;
         } else {
             await publishRecipe(recipe);
@@ -82,48 +82,59 @@ export function RecipeForm() {
     return (
         <div className={styles.recipeForm}>
             {params.recipeId === 'new' && <h2> New Recipe </h2>}
-            {params.recipeId !== 'new' && <h2> Edit {recipe.name} </h2>}
+            {params.recipeId !== 'new' && recipe.name.length === 0 && <h2> Loading recipe ... </h2>}
 
-            <form>
-                <Input
-                    label='Name'
-                    name='name'
-                    value={recipe.name}
-                    onChange={handleChange}
-                    autoFocus={true}
-                />
-                <Input
-                    label='Number of servings'
-                    name='numberOfServings'
-                    type='number'
-                    value={Math.abs(recipe.numberOfServings)}
-                    onChange={handleChange}
-                />
-                <FormSelectCategory
-                    value={recipe.category}
-                    onChange={handleChange}
-                />
-                <FormDynamicFields
-                    label='Ingredients'
-                    fields={recipe.ingredients}
-                    fieldName='ingredient'
-                    onFieldChange={(e, index) => handleFieldChange(index, e)}
-                    onFieldRemove={(e, index) => removeField(index, e)}
-                    onFieldAdd={(e) => addField(e)}
-                />
-                <FormDynamicFields
-                    label='Methods'
-                    fields={recipe.methods}
-                    fieldName='method'
-                    onFieldChange={(e, index) => handleFieldChange(index, e)}
-                    onFieldRemove={(e, index) => removeField(index, e)}
-                    onFieldAdd={(e) => addField(e)}
-                />
-                <br />
-                {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}
-                <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
-                <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
-            </form>
+            {
+                (
+                    params.recipeId === 'new' ||
+                    (params.recipeId !== 'new' && recipe.name.length !== 0)
+                )
+                &&
+                <>
+                    {params.recipeId !== 'new' && <h2> Edit {recipe.name} </h2>}
+
+                    <form>
+                        <Input
+                            label='Name'
+                            name='name'
+                            value={recipe.name}
+                            onChange={handleChange}
+                            autoFocus={true}
+                        />
+                        <Input
+                            label='Number of servings'
+                            name='numberOfServings'
+                            type='number'
+                            value={Math.abs(recipe.numberOfServings)}
+                            onChange={handleChange}
+                        />
+                        <FormSelectCategory
+                            value={recipe.category}
+                            onChange={handleChange}
+                        />
+                        <FormDynamicFields
+                            label='Ingredients'
+                            fields={recipe.ingredients}
+                            fieldName='ingredient'
+                            onFieldChange={(e, index) => handleFieldChange(index, e)}
+                            onFieldRemove={(e, index) => removeField(index, e)}
+                            onFieldAdd={(e) => addField(e)}
+                        />
+                        <FormDynamicFields
+                            label='Methods'
+                            fields={recipe.methods}
+                            fieldName='method'
+                            onFieldChange={(e, index) => handleFieldChange(index, e)}
+                            onFieldRemove={(e, index) => removeField(index, e)}
+                            onFieldAdd={(e) => addField(e)}
+                        />
+                        <br />
+                        {errors && errors.map((e, i) => <div className='alert alert-warning' key={i}>{e.message}</div>)}
+                        <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
+                        <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
+                    </form>
+                </>
+            }
         </div>
     );
 }

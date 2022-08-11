@@ -24,7 +24,7 @@ export function Recipe() {
     return (
         <>
             {recipe && <div>
-                <h1 >{recipe.name}</h1>
+                <h2 >{recipe.name}</h2>
                 <div className='badge rounded-pill p-2 m-2 bg-info'>{recipe.category.name}</div>
                 <span className='border border-secondary rounded-4 px-2 py-1 m-1'>
                     <i className='red-heart fa-heart fa-solid m-2' />

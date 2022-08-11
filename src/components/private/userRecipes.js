@@ -12,8 +12,9 @@ export function UserRecipes() {
     useEffect(() => {
         getUserRecipes()
             .then(result => {
-                if (!result.message)
+                if (!result.message) {
                     setUserRecipes(result);
+                }
                 else setMessage(result.message);
             })
             .catch(err => console.log(err));
@@ -42,7 +43,8 @@ export function UserRecipes() {
         <>
             <h2>Your recipes</h2>
             <button className="btn btn-primary my-4" onClick={newRecipe}>New recipe</button>
-            {!userRecipes.length && message}
+            {!userRecipes.length && !message && <h3>Loading...</h3>}
+            <div>{!userRecipes.length && message}</div>
             <ul className="list-group">
                 {userRecipes
                     .map(r => <li
