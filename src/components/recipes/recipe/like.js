@@ -1,4 +1,4 @@
-import { likeRecipe } from '../../services/recipeService';
+import { likeRecipe } from '../../../services/recipeService';
 
 export const Like = ({ user, recipe, onRender }) => {
 

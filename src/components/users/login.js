@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { loginUser } from "../../../services/userService";
+import { loginUser } from "../../services/userService";
 import { Input } from "../common/input";
-import { useEnableButton } from "../../../hooks/useEnableButton";
+import { useEnableButton } from "../../hooks/useEnableButton";
 import styles from './user.module.css';
 
 export function Login() {

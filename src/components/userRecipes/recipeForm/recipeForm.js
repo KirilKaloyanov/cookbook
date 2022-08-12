@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserRecipe, publishRecipe } from "../../../services/recipeService";
-import { Input } from '../../public/common/input';
+import { Input } from '../../common/input';
 import { FormSelectCategory } from "./formSelectCategory";
 import { FormDynamicFields } from "./formDynamicFields";
 import { validateRecipe } from "./validateRecipe";
@@ -38,7 +38,7 @@ export function RecipeForm() {
                     methods: result.methods,
                     category: result.category.name
                 })
-            }).catch(ex => {});
+            }).catch(ex => { });
     }, [navigate, params.recipeId, isRecipeNew])
 
     const handleChange = (e) => {
@@ -54,7 +54,7 @@ export function RecipeForm() {
         if (action === 'change') data[index][e.target.name] = e.target.value;
         if (action === 'remove') data.splice(index, 1);
         if (action === 'add')
-        data.push({ id: !data.length ? 0 : data[data.length - 1].id + 1, [e.target.name]: '' });
+            data.push({ id: !data.length ? 0 : data[data.length - 1].id + 1, [e.target.name]: '' });
         setRecipe(state => ({ ...state, [`${e.target.name}s`]: data }));
     }
     async function recipeFormSubmit(e) {
@@ -77,7 +77,7 @@ export function RecipeForm() {
         <div className={styles.recipeForm}>
             {!isRecipeNew && recipe.numberOfServings !== 0
                 ? <h2> Edit {recipe.name} </h2>
-                : <h2> Loading recipe ... </h2> 
+                : !isRecipeNew && <h2> Loading recipe ... </h2>
             }
             {isRecipeNew && <h2> New Recipe </h2>}
             <form>
@@ -116,11 +116,9 @@ export function RecipeForm() {
                 {
                     !isButtonEnabled
                         ? <button disabled className="btn btn-primary my-2">Saving recipe ...</button>
-                        : <>
-                            <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
-                            <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
-                        </>
+                        : <button type='submit' className='btn btn-primary' onClick={recipeFormSubmit}>Save recipe</button>
                 }
+                <button className="btn btn-light m-2" onClick={onClose}>Cancel</button>
             </form>
         </div>
     );

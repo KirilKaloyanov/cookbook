@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { publishComment } from "../../services/recipeService";
+import { publishComment } from "../../../services/recipeService";
 
 export function NewComment({ recipe, onRender }) {
     const [comment, setComment] = useState('');

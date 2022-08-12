@@ -2,9 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSingleRecipe } from '../../../services/recipeService';
 import { RecipeComment } from './recipeComment';
-import { NewComment } from '../../private/newComment';
-import { Like } from '../../private/like';
-import { UserContext } from '../../contexts/UserContext';
+import { NewComment } from './newComment';
+import { Like } from './like';
+import { UserContext } from '../../../contexts/UserContext';
 
 export function Recipe() {
     let params = useParams();

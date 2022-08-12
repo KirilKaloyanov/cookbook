@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../../services/userService";
+import { registerUser } from "../../services/userService";
 import { Input } from "../common/input";
-import { useEnableButton } from "../../../hooks/useEnableButton"; //11import
+import { useEnableButton } from "../../hooks/useEnableButton"; //11import
 import styles from './user.module.css';
 
 export function Register() {

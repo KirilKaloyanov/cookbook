@@ -22,5 +22,8 @@ Logged in users have their own collection of recipes where they can publish, upd
 
 ## Architecture
 
-The application (the client-side) is developed using `create-react-app` and has public folder holding the `index.html` file and a source folder holding react.js component, hooks, services and context. The client communcates to a server developed using Node.js and deployed at Heroku. The data is stored in MongoDB.
+The application (the client-side) is developed using `create-react-app` and has public folder holding the `index.html` file and a source folder holding react.js components, hooks, services and context. The client communicates to a server developed using Node.js and deployed at Heroku. The data is stored in MongoDB.
 
+## Dependencies
+
+The application uses several external libraries. These are `react-router-dom`, `bootstrap` and `jwt-decode`.
