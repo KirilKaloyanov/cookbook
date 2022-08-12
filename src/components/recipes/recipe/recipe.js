@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getSingleRecipe } from '../../../services/recipeService';
 import { RecipeComment } from './recipeComment';
 import { NewComment } from './newComment';
@@ -9,14 +9,18 @@ import styles from './../recipe.module.css';
 
 export function Recipe() {
     let params = useParams();
+    const navigate = useNavigate();
     const user = useContext(UserContext);
 
     const [recipe, setRecipe] = useState(null);
     useEffect(() => {
         getSingleRecipe(params.recipeId)
-            .then(result => { setRecipe(result) })
+            .then(result => { 
+                if (result.error || result.message) navigate('/notFound', { replace: true });
+                setRecipe(result); 
+            })
             .catch(err => console.log(err));
-    }, [params.recipeId]);
+    }, [params.recipeId, navigate]);
 
     const callRerender = recipe => {setRecipe(recipe)};
 

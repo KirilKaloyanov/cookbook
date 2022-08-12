@@ -1,5 +1,5 @@
 export function Home() {
     return (
-        <h1>Taste it!</h1>
+        <h1>.</h1>
     );
 }

@@ -14,6 +14,7 @@ import { Logout } from './components/users/logout';
 import { Recipes } from './components/recipes/recipes';
 import { Recipe } from './components/recipes/recipe/recipe';
 import { NotFound } from './components/common/notFound';
+import PrivateRoute from './components/common/ProtectedRoute';
 
 function App() {
 
@@ -28,14 +29,16 @@ function App() {
     <>
       <UserContext.Provider value={user}>
         <main className='container'>
-          <Navbar/>
+          <Navbar />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
-            <Route path='/:user' element={<UserRecipes />} />
-            <Route path='/:user/:recipeId' element={<RecipeForm />} />
+            <Route element={<PrivateRoute />}>
+              <Route path='/:user' element={<UserRecipes />} />
+              <Route path='/:user/:recipeId' element={<RecipeForm />} />
+            </Route>
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/recipes/:recipeId' element={<Recipe />} />
             <Route path='/notFound' element={<NotFound />} />

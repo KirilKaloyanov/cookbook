@@ -1,0 +1,46 @@
+.navWrapper {
+    display: flex;
+    position: relative;
+}
+
+.logoImg {
+    position: absolute;
+    height: 60px;
+    align-self: flex-start;
+}
+
+.navi {
+    width: 100%;
+    /* background-color: black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navitem{
+    list-style: none;
+    padding: 16px 20px;
+}
+
+.navitemActive{
+    color: black;
+    list-style: none;
+    padding: 16px 20px;
+}
+
+.navitem:hover {
+    color: white;
+    background-color: #f4e802;
+    text-decoration: none;
+}
+
+.navlink {
+    color: black;
+    text-decoration: none;
+}
+
+.navlinkActive {
+    color: black;
+    border-bottom: 3px solid #f4e802;
+    text-decoration: none;
+}

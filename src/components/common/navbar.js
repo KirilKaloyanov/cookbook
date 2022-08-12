@@ -1,39 +1,36 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { NavbarItem } from "./navbarItem";
+import css from './navbar.module.css';
+import logo from '../../img/logo.jpg';
 
 export function Navbar() {
 
     const user = useContext(UserContext);
     return (
-        <nav>
-            <ul className="nav nav-pills">
-                <li className="nav-item">
-                    <Link className="nav-link" to='/'>Home</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to='/recipes'>Recipes</Link>
-                </li>
+        <nav className={css.navWrapper}>
+            <Link to='/'>
+                <img src={logo} alt='logo' className={css.logoImg} />
+            </Link>
+            <ul className={css.navi}>
+
+                <NavbarItem name='Recipes' linkTarget='/recipes' />
+
                 {!user &&
                     <>
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/login'>Login</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/register'>Register</Link>
-                        </li>
+                        <NavbarItem name='Login' linkTarget='/login' />
+                        <NavbarItem name='Register' linkTarget='/register' />
+
                     </>
-                }           
-                {user && 
+                }
+                {user &&
                     <>
-                        <li className="nav-item">
-                        <Link className="nav-link" to={`/${user.username}`}>Your recipes</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/logout'>Logout</Link>
-                        </li>
+                        <NavbarItem name='Your recipes' linkTarget={`/${user.username}`} />
+                        <NavbarItem name='Logout' linkTarget='/logout' />
+
                     </>
-                
+
                 }
             </ul>
         </nav>
