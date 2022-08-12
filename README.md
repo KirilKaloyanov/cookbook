@@ -40,6 +40,22 @@ There are two main recipe components accessible for all users (logged-in or not)
 
 These components hold functionalities for logged-in users only. Similarly to the recipe components there are two main components - `userRecipes.js` and `recipeForm.js`. The first holds a list with the recipes of the user with buttons which deletes a single recipe and one button to add new recipe. The recipeForm component is used to publish new recipe or edit and existing one. This component have two helper components. The formSelectCategory renders the categories which the recipes belongs to. The formDynamicFields component helps with rendering the lists of ingredients and methods for every recipe giving the user a functionality to dynamically add or remove fields on the page form.
 
+### Services
+
+The application uses three service components. 
+
+- The `userService.js` provides functions register, login, logout and get current user. 
+- The `categoryService.js` provides access to the categories available in the database.
+- The `recipeService.js` implements CRUD operation to work with the recipes along with functionality to like and publish a comment to a given recipe.
+
+### Hooks
+
+There is one custom hook which is used by the components which have buttons triggering calls to the server. The hook provides functionality to enable and disable the buttons while the server is working the given operation, ensuring that the user is aware of his actions being processed.
+
+### Contexts
+
+The application uses Context which is located at the `App.js` component and provides the information if a user is logged. The context is used in the `navBar.js` and `recipe.js`.
+
 ## Dependencies
 
 The application uses several external libraries. These are `react-router-dom`, `bootstrap` and `jwt-decode`.
