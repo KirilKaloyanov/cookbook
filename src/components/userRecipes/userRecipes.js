@@ -45,13 +45,16 @@ export function UserRecipes() {
             <button className="btn btn-primary my-4" onClick={newRecipe}>New recipe</button>
             {!userRecipes.length && !message && <h3>Loading...</h3>}
             <div>{!userRecipes.length && message}</div>
-            <ul className="list-group">
+            <ul className="list-group list-group-flush">
                 {userRecipes
                     .map(r => <li
                         key={r._id}
                         className='list-group-item d-flex justify-content-between align-items-center'
                     >
-                        <Link className="decoration-none" to={`/${params.user}/${r._id}`}>{r.name} </Link>
+                        <span>
+                            <Link className="decoration-none" to={`/${params.user}/${r._id}`}>{r.name} </Link>
+                            <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-info'> {r.category.name} </span>
+                        </span>
                         <button
                             className="btn btn-danger mx-2"
                             onClick={() => setRecipeForDeletion(r)}

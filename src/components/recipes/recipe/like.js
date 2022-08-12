@@ -1,4 +1,5 @@
 import { likeRecipe } from '../../../services/recipeService';
+import styles from './../recipe.module.css';
 
 export const Like = ({ user, recipe, onRender }) => {
 
@@ -10,16 +11,16 @@ export const Like = ({ user, recipe, onRender }) => {
             .catch(err => console.log(err));
     }
 
-    const renderIconCss = () => {
+    const renderIconStyles = () => {
         return index >= 0 && recipe.likes[index].like
-            ? 'fa-solid red-heart'
+            ? `fa-solid `
             : 'fa-regular';
     }
 
 
     return (
         <div >
-            <i className={`fa-heart cursor-pointer ${renderIconCss()}`} onClick={handleLike} />
+            <i className={`fa-heart cursor-pointer ${renderIconStyles()} ${styles.redHeart}`} onClick={handleLike} />
 
         </div>
 

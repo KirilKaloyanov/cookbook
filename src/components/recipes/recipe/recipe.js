@@ -5,6 +5,7 @@ import { RecipeComment } from './recipeComment';
 import { NewComment } from './newComment';
 import { Like } from './like';
 import { UserContext } from '../../../contexts/UserContext';
+import styles from './../recipe.module.css';
 
 export function Recipe() {
     let params = useParams();
@@ -26,8 +27,8 @@ export function Recipe() {
             {recipe && <div>
                 <h2 >{recipe.name}</h2>
                 <div className='badge rounded-pill p-2 m-2 bg-info'>{recipe.category.name}</div>
-                <span className='border border-secondary rounded-4 px-2 py-1 m-1'>
-                    <i className='red-heart fa-heart fa-solid m-2' />
+                <span className='px-2 py-1 m-1'>
+                    <i className={`${styles.redHeart} fa-heart fa-solid m-2`} />
                     {recipe.likes.filter(rl => rl.like === true).length}
                 </span>
                 <h5>Number of servings: {recipe.numberOfServings}</h5>
