@@ -36,7 +36,7 @@ export function NewComment({ recipe, onRender }) {
                     onChange={handleChange}
                 />
                 {error && <div className='alert alert-warning my-2' >{error.message}</div>}
-                <input type='submit' className="btn btn-primary my-3" />
+                <input type='submit' value='Comment' className="btn btn-primary my-3" />
             </form>
         </>
     )
