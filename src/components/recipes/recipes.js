@@ -24,7 +24,7 @@ export function Recipes() {
           .catch(ex => console.log(ex));
       })
       .catch(ex => console.log(ex));
-  });
+  }, []);
 
   const [selectedCategory, setSelectedCategory] = useState('All categories');
   const handleSelectedCategory = (category) => setSelectedCategory(category.name);
@@ -33,15 +33,15 @@ export function Recipes() {
     <>
       <div>
         <h2>Recipes collection</h2>
-        <ul>
+        <ul className={styles.categoriesWrapper}>
           {categories
             .map(category => <li
               key={category._id}
               onClick={() => handleSelectedCategory(category)}
               className={
                 category.name === selectedCategory
-                  ? 'badge rounded-pill p-2 m-2 cursor-pointer bg-primary'
-                  : 'badge rounded-pill p-2 m-2 cursor-pointer bg-info'
+                  ? styles.badgeActive//'badge rounded-pill p-2 m-2 cursor-pointer bg-primary'
+                  : styles.badge//'badge rounded-pill p-2 m-2 cursor-pointer bg-info'
               }
             >{category.name}</li>)
           }
@@ -50,7 +50,7 @@ export function Recipes() {
 
       <div>
         <ul className='list-group list-group-flush'>
-          {!recipes.length && <h3>Loading..</h3>}
+          {!recipes.length && <h3>Loading recipes collection...</h3>}
           {recipes
             .filter(
               recipe => selectedCategory === 'All categories'
@@ -66,7 +66,7 @@ export function Recipes() {
               <li key={r._id} className='list-group-item d-flex justify-content-between'>
                 <span>
                   <Link to={r._id} className='decoration-none'> {r.name} </Link>
-                  <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-info'> {r.category.name} </span>
+                  <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-secondary'> {r.category.name} </span>
                 </span>
                 <span className='px-2 m-1'>
                   <i className={`${styles.redHeart} fa-heart fa-solid m-2`} />

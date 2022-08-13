@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { NavbarItem } from "./navbarItem";
 import css from './navbar.module.css';
@@ -10,9 +9,7 @@ export function Navbar() {
     const user = useContext(UserContext);
     return (
         <nav className={css.navWrapper}>
-            <Link to='/'>
-                <img src={logo} alt='logo' className={css.logoImg} />
-            </Link>
+            <img src={logo} alt='logo' className={css.logoImg} />
             <ul className={css.navi}>
 
                 <NavbarItem name='Recipes' linkTarget='/recipes' />

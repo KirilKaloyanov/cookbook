@@ -43,7 +43,7 @@ export function UserRecipes() {
         <>
             <h2>Your recipes</h2>
             <button className="btn btn-primary my-4" onClick={newRecipe}>New recipe</button>
-            {!userRecipes.length && !message && <h3>Loading...</h3>}
+            {!userRecipes.length && !message && <h3>Loading recipes collection...</h3>}
             <div>{!userRecipes.length && message}</div>
             <ul className="list-group list-group-flush">
                 {userRecipes
@@ -53,7 +53,7 @@ export function UserRecipes() {
                     >
                         <span>
                             <Link className="decoration-none" to={`/${params.user}/${r._id}`}>{r.name} </Link>
-                            <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-info'> {r.category.name} </span>
+                            <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-secondary'> {r.category.name} </span>
                         </span>
                         <button
                             className="btn btn-danger mx-2"

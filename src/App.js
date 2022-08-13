@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import { getCurrentUser } from './services/userService';
 
-import { Home } from './components/common/home';
 import { Navbar } from './components/common/navbar';
 import { Register } from './components/users/register';
 import { Login } from './components/users/login';
@@ -31,11 +30,11 @@ function App() {
         <main className='container'>
           <Navbar />
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Recipes />} />
             <Route path='/register' element={<Register />} />
             <Route path='/login' element={<Login />} />
             <Route path='/logout' element={<Logout />} />
-            <Route element={<PrivateRoute />}>
+            <Route element={<PrivateRoute user={user} />}>
               <Route path='/:user' element={<UserRecipes />} />
               <Route path='/:user/:recipeId' element={<RecipeForm />} />
             </Route>

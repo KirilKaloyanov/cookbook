@@ -1,3 +1,24 @@
+h2 {
+  text-align: center;
+}
+
 .redHeart {
     color: rgb(207, 4, 4);
-  }
+}
+
+.badge {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 20px;
+}
+
+.badgeActive {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 20px;
+  border-bottom: 3px solid #f4e802;
+}
+
+.categoriesWrapper {
+  display: flex;
+}
