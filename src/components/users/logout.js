@@ -1,6 +1,9 @@
 import { logout } from "../../services/userService";
 
 export function Logout() {
-    logout();
+
+        logout();
+
+
     window.location = '/';
 }
