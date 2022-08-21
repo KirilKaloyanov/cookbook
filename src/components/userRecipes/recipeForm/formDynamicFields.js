@@ -32,7 +32,7 @@ export function FormDynamicFields({
                                 onClick={(e) => onFieldChange(e, 'remove', index)} 
                                 className="btn btn-danger mx-2 mb-2"
                                 form=''
-                            >Remove {fieldName}</button>
+                            >Remove</button>
                         </div>
                     </div>
                 )

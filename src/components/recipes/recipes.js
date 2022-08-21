@@ -68,7 +68,7 @@ export function Recipes() {
                   <Link to={r._id} className='decoration-none'> {r.name} </Link>
                   <span className='badge rounded-pill p-2 m-2 cursor-pointer bg-secondary'> {r.category.name} </span>
                 </span>
-                <span className='px-2 m-1'>
+                <span className='px-3 m-1 d-flex'>
                   <i className={`${styles.redHeart} fa-heart fa-solid m-2`} />
                   {r.likes.filter(rl => rl.like === true).length}
                 </span>

@@ -4,9 +4,15 @@
 
 .homeContainer {
     display: flex;
-    height: 60vh;
     justify-content: center;
     align-items: center;
+    margin: 100px 0 0 0;
+}
+
+@media screen and (max-width: 680px) {
+    .homeContainer {
+        flex-direction: column;
+    }
 }
 
 .homeCard {
