@@ -12,14 +12,27 @@
 
 .modal {
     position: absolute;
-    top: 40vh;
-    left: 25vw;
+    top: 20vh;
+    left: 30vw;
     width: 30vw;
-    border: 1px solid rgb(131, 131, 131);
+    border: 1px solid rgb(192, 191, 191);
     border-radius: 5px;
-    background-color: rgb(176, 209, 222, 0.95);
+    background-color: rgb(252, 245, 149);
     padding: 50px;
     text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .modal {
+        left: 10vw;
+        width: 70vw;
+    }    
+}
+
+@media screen and (min-width: 600px) and (max-width: 768px) {
+    .modal {
+        left: 4vw;
+    }
 }
 
 .buttons {
@@ -27,3 +40,5 @@
     justify-content: center;
 
 }
+
+/* rgb(176, 209, 222, 0.95) */
