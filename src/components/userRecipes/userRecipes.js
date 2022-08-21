@@ -18,7 +18,7 @@ export function UserRecipes() {
                 else setMessage(result.message);
             })
             .catch(err => console.log(err));
-    }, [])
+    }, [deletion])
 
     const params = useParams();
     const navigate = useNavigate();

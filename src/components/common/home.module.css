@@ -1,0 +1,28 @@
+.homeLink {
+    text-decoration: none;
+}
+
+.homeContainer {
+    display: flex;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.homeCard {
+    color: rgb(53, 53, 53);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2vw;
+    width: 200px;
+    height: 200px;
+    background-color: #f4e802;
+    font-weight: 700;
+}
+
+.homeCard:hover {
+    border: 3px solid #f4e802; 
+    background-color: white;
+}
